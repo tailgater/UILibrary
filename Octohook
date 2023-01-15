@@ -4917,11 +4917,11 @@ function library:CreateSettingsTab(menu)
                 library:SetOpen(not library.open)
             end});
             -----------------------
-	    local title_section = settings:AddSection("Title", 2)
-            title_section:AddBox({text = "Cheat Name", flag = "cheat_name", input = library.cheatname, callback = function(txt)
+	    main_section:AddSeparator({text = 'Title'});
+            main_section:AddBox({text = "Cheat Name", flag = "cheat_name", input = library.cheatname, callback = function(txt)
                 library.change_name(txt, flags.cheat_domain);
             end});
-            title_section:AddBox({text = "Cheat Domain", flag = "cheat_domain", input = library.domain, callback = function(txt)
+            main_section:AddBox({text = "Cheat Domain", flag = "cheat_domain", input = library.domain, callback = function(txt)
                 library.change_name(flags.cheat_name, txt);
             end});
         
