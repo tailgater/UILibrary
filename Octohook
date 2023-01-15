@@ -4917,7 +4917,7 @@ function library:CreateSettingsTab(menu)
                 library:SetOpen(not library.open)
             end});
             -----------------------
-	    local title_section = settings:AddSection("Title", 2); do
+	    local title_section = settings:AddSection("Title", 2)
             title_section:AddBox({text = "Cheat Name", flag = "cheat_name", input = library.cheatname, callback = function(txt)
                 library.change_name(txt, flags.cheat_domain);
             end});
