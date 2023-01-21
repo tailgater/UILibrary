@@ -813,8 +813,8 @@ function library:init()
     self.cursor1 = utility:Draw('Triangle', {Filled = true, Color = fromrgb(197,7,83), ZIndex = self.zindexOrder.cursor});
     self.cursor2 = utility:Draw('Triangle', {Filled = true, Color = fromrgb(85,85,85), self.zindexOrder.cursor-1});
     local function updateCursor()
-        self.cursor1.Visible = true
-        self.cursor2.Visible = true
+        self.cursor1.Visible = false
+        self.cursor2.Visible = false
         if self.cursor1.Visible then
             local pos = inputservice:GetMouseLocation();
             self.cursor1.PointA = pos;
