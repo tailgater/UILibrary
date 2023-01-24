@@ -4932,7 +4932,7 @@ function library:CreateSettingsTab(menu)
             main_section:AddButton({text = "Rejoin Game", confirm = true, callback = function()
                 game:GetService("TeleportService"):Teleport(game.PlaceId);
             end})
-            main_section:AddBind({text = "Open / Close", flag = "togglebind", nomouse = true, noindicator = true, bind = Enum.KeyCode.RightShift, callback = function()
+            main_section:AddBind({text = "Open / Close", flag = "togglebind", nomouse = true, noindicator = true, bind = Enum.KeyCode.M, callback = function()
                 library:SetOpen(not library.open)
             end});
         end;
