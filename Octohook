@@ -4924,9 +4924,10 @@ function library:CreateSettingsTab(menu)
         -- 
         local main_section = settings:AddSection("Main", 2); do
             main_section:AddButton({text = "Join Discord",  callback = function()
+	    	setclipboard("discord.gg/6bck9MPMEz")
                     library:SendNotification("Copied Invite", 3);
             end});
-            main_section:AddButton({text = "Rejoin Server", callback = function()
+            main_section:AddButton({text = "Rejoin Server", confirm = true, callback = function()
                 game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId, game.JobId);
             end});
             main_section:AddButton({text = "Rejoin Game", confirm = true, callback = function()
