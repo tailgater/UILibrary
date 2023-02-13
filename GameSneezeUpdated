@@ -1,14 +1,13 @@
--- // Variables
 local ws, uis, rs, hs, cas, plrs, stats = game:GetService("Workspace"), game:GetService("UserInputService"), game:GetService("RunService"), game:GetService("HttpService"), game:GetService("ContextActionService"), game:GetService("Players"), game:GetService("Stats")
---
+
 local localplayer = plrs.LocalPlayer
---
+
 local mouse = localplayer:GetMouse()
---
+
 local Remove = table.remove
 local Unpack = table.unpack
 local Find = table.find
--- UI Variables
+
 local library = {
     drawings = {},
     objects = {},
@@ -22,17 +21,17 @@ local library = {
     hovers = {},
     Relations = {},
     folders = {
-        main = "Atlanta",
-        assets = "Atlanta/Images",
-        configs = "Atlanta/Configs"
+        main = "Fatality",
+        assets = "Fatality/Images",
+        configs = "Fatality/Configs"
     },
     shared = {
-        initialized = false,
+        initialized = true,
         fps = 0,
         ping = 0
     }
 }
---
+
 local utility = {
     Keyboard = {
         Letters = {
@@ -54,14 +53,12 @@ local utility = {
 }
 local pages = {}
 local sections = {}
--- Theme Variables
---local themes = {}
 local theme = {
-    accent = Color3.fromRGB(189, 182, 240),
-    lightcontrast = Color3.fromRGB(30, 30, 30),
-    darkcontrast = Color3.fromRGB(25, 25, 25),
-    outline = Color3.fromRGB(0, 0, 0),
-    inline = Color3.fromRGB(50, 50, 50),
+    accent = Color3.fromRGB(255, 84, 84),
+    lightcontrast = Color3.fromRGB(74,74,74),
+    darkcontrast = Color3.fromRGB(55,55,55),
+    outline = Color3.fromRGB(65,65,65),
+    inline = Color3.fromRGB(48,48,48),
     textcolor = Color3.fromRGB(255, 255, 255),
     textdark = Color3.fromRGB(175, 175, 175),
     textborder = Color3.fromRGB(0, 0, 0),
@@ -69,6 +66,7 @@ local theme = {
     font = 2,
     textsize = 13
 }
+-- // Color Functions
 function library:UpdateColor(ColorType, ColorValue)
     local ColorType = ColorType:lower()
     --
@@ -146,7 +144,7 @@ do
             instance = text
         elseif instanceType == "Triangle" or instanceType == "triangle" then
             local frame = Drawing.new("Triangle")
-            frame.Visible = true
+            frame.Visible = false
             frame.Filled = true
             frame.Thickness = 0
             frame.Color = Color3.fromRGB(255,255,255)
@@ -708,8 +706,9 @@ do
             --
             local cursor = utility:Create("Triangle", nil, {
                 Color = theme.cursoroutline,
-                Thickness = 2.5,
-                Filled = false,
+                Thickness = 9,
+                Filled = true,
+                Visible = false,
                 ZIndex = 65,
                 Hidden = true
             });window.cursor["cursor"] = cursor
@@ -723,6 +722,7 @@ do
                 Filled = true,
                 Thickness = 0,
                 ZIndex = 65,
+                Visible = false,
                 Hidden = true
             });window.cursor["cursor_inline"] = cursor_inline
             --
@@ -742,7 +742,7 @@ do
                 cursor_inline.PointC = Vector2.new(mouseLocation.X + 4, mouseLocation.Y + 12)
             end)
             --
-            uis.MouseIconEnabled = false
+            uis.MouseIconEnabled = true
             --
             return window.cursor
         end
@@ -757,9 +757,9 @@ do
                 end
             end)
             --
-            window.cursor["cursor"].Transparency = window.isVisible and 1 or 0
-            window.cursor["cursor_inline"].Transparency = window.isVisible and 1 or 0
-            uis.MouseIconEnabled = not window.isVisible
+            window.cursor["cursor"].Transparency = 1
+            window.cursor["cursor_inline"].Transparency = 1
+            uis.MouseIconEnabled = true
             --
             window.fading = false
         end
@@ -1087,7 +1087,8 @@ do
             local esppreview_frame = utility:Create("Frame", {Vector2.new(main_frame.Size.X + 5,0), main_frame}, {
                 Size = utility:Size(0, 236, 0, 339),
                 Position = utility:Position(1, 5, 0, 0, main_frame),
-                Color = theme.outline
+                Color = theme.outline,
+                Visible = false
             }, window.VisualPreview.Drawings)
             --
             library.colors[esppreview_frame] = {
@@ -1097,6 +1098,7 @@ do
             local esppreview_inline = utility:Create("Frame", {Vector2.new(1,1), esppreview_frame}, {
                 Size = utility:Size(1, -2, 1, -2, esppreview_frame),
                 Position = utility:Position(0, 1, 0, 1, esppreview_frame),
+                Visible = false,
                 Color = theme.accent
             }, window.VisualPreview.Drawings)
             --
@@ -1107,6 +1109,7 @@ do
             local esppreview_inner = utility:Create("Frame", {Vector2.new(1,1), esppreview_inline}, {
                 Size = utility:Size(1, -2, 1, -2, esppreview_inline),
                 Position = utility:Position(0, 1, 0, 1, esppreview_inline),
+                Visible = false,
                 Color = theme.lightcontrast
             }, window.VisualPreview.Drawings)
             --
@@ -1117,6 +1120,7 @@ do
             local esppreview_title = utility:Create("TextLabel", {Vector2.new(4,2), esppreview_inner}, {
                 Text = "ESP Preview",
                 Size = theme.textsize,
+                Visible = false,
                 Font = theme.font,
                 Color = theme.textcolor,
                 OutlineColor = theme.textborder,
@@ -1127,6 +1131,7 @@ do
                 Text = "O",
                 Size = theme.textsize,
                 Font = theme.font,
+                Visible = false,
                 Color = theme.textcolor,
                 OutlineColor = theme.textborder,
                 Position = utility:Position(1, -(5 + 7), 0, 2, esppreview_inner)
@@ -1140,6 +1145,7 @@ do
             local esppreview_inner_inline = utility:Create("Frame", {Vector2.new(4,18), esppreview_inner}, {
                 Size = utility:Size(1, -8, 1, -22, esppreview_inner),
                 Position = utility:Position(0, 4, 0, 18, esppreview_inner),
+                Visible = false,
                 Color = theme.inline
             }, window.VisualPreview.Drawings)
             --
@@ -1150,6 +1156,7 @@ do
             local esppreview_inner_outline = utility:Create("Frame", {Vector2.new(1,1), esppreview_inner_inline}, {
                 Size = utility:Size(1, -2, 1, -2, esppreview_inner_inline),
                 Position = utility:Position(0, 1, 0, 1, esppreview_inner_inline),
+                Visible = false,
                 Color = theme.outline
             }, window.VisualPreview.Drawings)
             --
@@ -1160,6 +1167,7 @@ do
             local esppreview_inner_frame = utility:Create("Frame", {Vector2.new(1,1), esppreview_inner_outline}, {
                 Size = utility:Size(1, -2, 1, -2, esppreview_inner_outline),
                 Position = utility:Position(0, 1, 0, 1, esppreview_inner_outline),
+                Visible = false,
                 Color = theme.darkcontrast
             }, window.VisualPreview.Drawings)
             --
@@ -1169,6 +1177,7 @@ do
             --
             local esppreview_frame_previewbox = utility:Create("Frame", {Vector2.new(10,10), esppreview_inner_frame}, {
                 Size = utility:Size(1, -20, 1, -20, esppreview_inner_frame),
+                Visible = false,
                 Position = utility:Position(0, 10, 0, 10, esppreview_inner_frame),
                 Color = Color3.fromRGB(0, 0, 0),
                 Transparency = 0
@@ -1187,6 +1196,7 @@ do
                 local Color = ColorLerp(Smoothened, window.VisualPreview.Color1, window.VisualPreview.Color2)
                 --
                 healthvalue.Text = "<- " .. math.round(Smoothened * 100)
+                healthvalue.Visible = false
                 healthvalue.Color = Color
                 healthbar.Color = Color
                 healthbar.Size = utility:Size(1, -2, 0, Size, healthbaroutline)
@@ -1205,6 +1215,7 @@ do
                 if not (window.VisualPreview.Size[Side] == Size) then
                     window.VisualPreview.Size[Side] = Size
                     --
+                    esppreview_frame.Visible = false
                     esppreview_frame.Size = utility:Size(0, 231 + window.VisualPreview.Size[Side], 0, 339)
                     esppreview_inline.Size = utility:Size(1, -2, 1, -2, esppreview_frame)
                     esppreview_inner.Size = utility:Size(1, -2, 1, -2, esppreview_inline)
@@ -1294,6 +1305,7 @@ do
             do -- Preview Stuff
                 local preview_boxoutline = utility:Create("Frame", {Vector2.new(esppreview_frame_previewbox.Size.X - BoxSize.X - 1, 20), esppreview_frame_previewbox}, {
                     Size = BoxSize,
+                    Visible = false,
                     Position = utility:Position(1, -(BoxSize.X - 1), 0, 20, esppreview_frame_previewbox),
                     Color = Color3.fromRGB(0, 0, 0),
                     Filled = false,
@@ -1304,6 +1316,7 @@ do
                     Size = utility:Size(1, 0, 1, 0, preview_boxoutline),
                     Position = utility:Position(0, 0, 0, 0, preview_boxoutline),
                     Color = Color3.fromRGB(255, 255, 255),
+                    Visible = false,
                     Filled = false,
                     Thickness = 0.6
                 }, window.VisualPreview.Drawings)
@@ -1312,6 +1325,7 @@ do
                     Size = utility:Size(0, 4, 1, 2, preview_boxoutline),
                     Position = utility:Position(0, -6, 0, -1, preview_boxoutline),
                     Color = Color3.fromRGB(0, 0, 0),
+                    Visible = false,
                     Filled = true
                 }, window.VisualPreview.Drawings);healthbaroutline = preview_heatlhbaroutline
                 --
@@ -1319,6 +1333,7 @@ do
                     Size = utility:Size(1, -2, 1, -2, preview_heatlhbaroutline),
                     Position = utility:Position(0, 1, 0, 1, preview_heatlhbaroutline),
                     Color = Color3.fromRGB(255, 0, 0),
+                    Visible = false,
                     Filled = true
                 }, window.VisualPreview.Drawings);healthbar = preview_heatlhbar
                 --
@@ -1327,6 +1342,7 @@ do
                     Size = theme.textsize,
                     Font = theme.font,
                     Color = theme.textcolor,
+                    Visible = false,
                     OutlineColor = theme.textborder,
                     Center = true,
                     Position = utility:Position(0.5, 0, 0, -20, preview_box)
@@ -1335,6 +1351,7 @@ do
                 local preview_distance = utility:Create("TextLabel", {Vector2.new(preview_box.Size.X / 2, preview_box.Size.Y + 5), preview_box}, {
                     Text = "25m",
                     Size = theme.textsize,
+                    Visible = false,
                     Font = theme.font,
                     Color = theme.textcolor,
                     OutlineColor = theme.textborder,
@@ -1345,6 +1362,7 @@ do
                 local preview_tool = utility:Create("TextLabel", {Vector2.new(preview_box.Size.X / 2, preview_box.Size.Y + 20), preview_box}, {
                     Text = "Weapon",
                     Size = theme.textsize,
+                    Visible = false,
                     Font = theme.font,
                     Color = theme.textcolor,
                     OutlineColor = theme.textborder,
@@ -1356,6 +1374,7 @@ do
                     Size = utility:Size(1, -46, 1, -40, preview_box),
                     Position = utility:Position(0, (46/2), 0, (40/2), preview_box),
                     Color = Color3.fromRGB(255, 255, 255),
+                    Visible = false,
                     Transparency = 0
                 }, window.VisualPreview.Drawings)
                 --
@@ -1371,42 +1390,48 @@ do
                             Size = utility:Size(0.3, extrasize, 0.2, 0, preview_character),
                             Position = utility:Position(0.35, extraoffset, 0, extraoffset, preview_character),
                             Color = color,
-                            Transparency = transparency
+                            Visible = false,
+                            Transparency = 1
                         }, window.VisualPreview.Drawings)
                         --
                         local preview_character_torso = utility:Create("Frame", {Vector2.new((preview_character.Size.X * 0.25) + (extraoffset), (preview_character.Size.Y * 0.2) + (extraoffset)), preview_character}, {
                             Size = utility:Size(0.5, extrasize, 0.4, extrasize, preview_character),
                             Position = utility:Position(0.25, extraoffset, 0.2, extraoffset, preview_character),
                             Color = color,
-                            Transparency = transparency
+                            Visible = false,
+                            Transparency = 1
                         }, window.VisualPreview.Drawings)
                         --
                         local preview_character_leftarm = utility:Create("Frame", {Vector2.new(extraoffset, (preview_character.Size.Y * 0.2) + (extraoffset)), preview_character}, {
                             Size = utility:Size(0.25, 0, 0.4, extrasize, preview_character),
                             Position = utility:Position(0, extraoffset, 0.2, extraoffset, preview_character),
                             Color = color,
-                            Transparency = transparency
+                            Visible = false,
+                            Transparency = 1
                         }, window.VisualPreview.Drawings)
                         --
                         local preview_character_rightarm = utility:Create("Frame", {Vector2.new((preview_character.Size.X * 0.75) + (extraoffset + extrasize), (preview_character.Size.Y * 0.2) + (extraoffset)), preview_character}, {
                             Size = utility:Size(0.25, 0, 0.4, extrasize, preview_character),
                             Position = utility:Position(0.75, extraoffset, 0.2, extraoffset, preview_character),
                             Color = color,
-                            Transparency = transparency
+                            Visible = false,
+                            Transparency = 1
                         }, window.VisualPreview.Drawings)
                         --
                         local preview_character_leftleg = utility:Create("Frame", {Vector2.new((preview_character.Size.X * 0.25) + (extraoffset), (preview_character.Size.Y * 0.6) + (extraoffset + extrasize)), preview_character}, {
                             Size = utility:Size(0.25, extrasize / 2, 0.4, 0, preview_character),
                             Position = utility:Position(0.25, extraoffset, 0.6, extraoffset + extrasize, preview_character),
                             Color = color,
-                            Transparency = transparency
+                            Visible = false,
+                            Transparency = 1
                         }, window.VisualPreview.Drawings)
                         --
                         local preview_character_rightleg = utility:Create("Frame", {Vector2.new((preview_character.Size.X * 0.5) + (extraoffset + (extrasize / 2)), (preview_character.Size.Y * 0.6) + (extraoffset + extrasize)), preview_character}, {
                             Size = utility:Size(0.25, extrasize / 2, 0.4, 0, preview_character),
                             Position = utility:Position(0.25, extraoffset, 0.6, extraoffset + extrasize, preview_character),
                             Color = color,
-                            Transparency = transparency
+                            Visible = false,
+                            Transparency = 1
                         }, window.VisualPreview.Drawings)
                         --
                         window.VisualPreview.Components.Chams["Head"][Index] = preview_character_head
@@ -1422,63 +1447,71 @@ do
                     for Index = 1, 2 do
                         local skeletonsize = Vector2.new(Index == 1 and 3 or 1, Index == 1 and -10 or -12)
                         local skeletonoffset = Vector2.new(Index == 1 and -1 or 0, Index == 1 and 5 or 6)
-                        local transparency = 0.5
+                        local transparency = 1
                         local color = Index == 1 and Color3.fromRGB(0, 0, 0) or Color3.fromRGB(255, 255, 255)
                         --
                         local preview_skeleton_head = utility:Create("Frame", {Vector2.new((window.VisualPreview.Components.Chams["Head"][2].Size.X * 0.5) + skeletonoffset.X, (window.VisualPreview.Components.Chams["Head"][2].Size.Y * 0.5) + skeletonoffset.Y), window.VisualPreview.Components.Chams["Head"][2]}, {
                             Size = utility:Size(0, skeletonsize.X, 0.5, 0, window.VisualPreview.Components.Chams["Head"][2]),
                             Position = utility:Position(0.5, skeletonoffset.X, 0.5, skeletonoffset.Y, window.VisualPreview.Components.Chams["Head"][2]),
                             Color = color,
-                            Transparency = transparency
+                            Visible = false,
+                            Transparency = 1
                         }, window.VisualPreview.Drawings)
                         --
                         local preview_skeleton_torso = utility:Create("Frame", {Vector2.new((window.VisualPreview.Components.Chams["Torso"][2].Size.X * 0) + skeletonoffset.X - (window.VisualPreview.Components.Chams["LeftArm"][2].Size.X / 2) + (Index == 1 and 3 or 1), skeletonoffset.Y), window.VisualPreview.Components.Chams["Torso"][2]}, {
                             Size = utility:Size(1, skeletonsize.X + window.VisualPreview.Components.Chams["LeftArm"][2].Size.X - (Index == 1 and 6 or 2), 0, skeletonsize.X, window.VisualPreview.Components.Chams["Torso"][2]),
                             Position = utility:Position(0, skeletonoffset.X - (window.VisualPreview.Components.Chams["LeftArm"][2].Size.X / 2) + (Index == 1 and 3 or 1), 0, skeletonoffset.Y, window.VisualPreview.Components.Chams["Torso"][2]),
                             Color = color,
-                            Transparency = transparency
+                            Visible = false,
+                            Transparency = 1
                         }, window.VisualPreview.Drawings)
                         --
                         local preview_skeleton_leftarm = utility:Create("Frame", {Vector2.new((window.VisualPreview.Components.Chams["LeftArm"][2].Size.X * 0.5) + skeletonoffset.X, skeletonoffset.Y), window.VisualPreview.Components.Chams["LeftArm"][2]}, {
                             Size = utility:Size(0, skeletonsize.X, 1, skeletonsize.Y, window.VisualPreview.Components.Chams["LeftArm"][2]),
                             Position = utility:Position(0.5, skeletonoffset.X, 0, skeletonoffset.Y, window.VisualPreview.Components.Chams["LeftArm"][2]),
                             Color = color,
-                            Transparency = transparency
+                            Visible = false,
+                            Transparency = 1
                         }, window.VisualPreview.Drawings)
                         --
                         local preview_skeleton_rightarm = utility:Create("Frame", {Vector2.new((window.VisualPreview.Components.Chams["RightArm"][2].Size.X * 0.5) + skeletonoffset.X, skeletonoffset.Y), window.VisualPreview.Components.Chams["RightArm"][2]}, {
                             Size = utility:Size(0, skeletonsize.X, 1, skeletonsize.Y, window.VisualPreview.Components.Chams["RightArm"][2]),
                             Position = utility:Position(0.5, skeletonoffset.X, 0, skeletonoffset.Y, window.VisualPreview.Components.Chams["RightArm"][2]),
                             Color = color,
-                            Transparency = transparency
+                            Visible = false,
+                            Transparency = 1
                         }, window.VisualPreview.Drawings)
                         --
                         local preview_skeleton_hips = utility:Create("Frame", {Vector2.new((window.VisualPreview.Components.Chams["LeftLeg"][2].Size.X * 1) + skeletonoffset.X - (window.VisualPreview.Components.Chams["LeftLeg"][2].Size.X / 2) + (Index == 1 and 3 or 1), skeletonoffset.Y), window.VisualPreview.Components.Chams["LeftLeg"][2]}, {
                             Size = utility:Size(1, skeletonsize.X - (Index == 1 and 6 or 2), 0, skeletonsize.X, window.VisualPreview.Components.Chams["LeftLeg"][2]),
                             Position = utility:Position(0.5, skeletonoffset.X + (Index == 1 and 3 or 1), 0, skeletonoffset.Y, window.VisualPreview.Components.Chams["LeftLeg"][2]),
                             Color = color,
-                            Transparency = transparency
+                            Visible = false,
+                            Transparency = 1
                         }, window.VisualPreview.Drawings)
                         --
                         local preview_skeleton_leftleg = utility:Create("Frame", {Vector2.new((window.VisualPreview.Components.Chams["LeftLeg"][2].Size.X * 0.5) + skeletonoffset.X, skeletonoffset.Y), window.VisualPreview.Components.Chams["LeftLeg"][2]}, {
                             Size = utility:Size(0, skeletonsize.X, 1, skeletonsize.Y, window.VisualPreview.Components.Chams["LeftLeg"][2]),
                             Position = utility:Position(0.5, skeletonoffset.X, 0, skeletonoffset.Y, window.VisualPreview.Components.Chams["LeftLeg"][2]),
                             Color = color,
-                            Transparency = transparency
+                            Visible = false,
+                            Transparency = 1
                         }, window.VisualPreview.Drawings)
                         --
                         local preview_skeleton_rightleg = utility:Create("Frame", {Vector2.new((window.VisualPreview.Components.Chams["RightLeg"][2].Size.X * 0.5) + skeletonoffset.X, skeletonoffset.Y), window.VisualPreview.Components.Chams["RightLeg"][2]}, {
                             Size = utility:Size(0, skeletonsize.X, 1, skeletonsize.Y, window.VisualPreview.Components.Chams["RightLeg"][2]),
                             Position = utility:Position(0.5, skeletonoffset.X, 0, skeletonoffset.Y, window.VisualPreview.Components.Chams["RightLeg"][2]),
                             Color = color,
-                            Transparency = transparency
+                            Visible = false,
+                            Transparency = 1
                         }, window.VisualPreview.Drawings)
                         --
                         local preview_skeleton_hipstorso = utility:Create("Frame", {Vector2.new((window.VisualPreview.Components.Chams["Torso"][2].Size.X * 0.5) + skeletonoffset.X, skeletonoffset.Y + (Index == 1 and 3 or 1)), window.VisualPreview.Components.Chams["Torso"][2]}, {
                             Size = utility:Size(0, skeletonsize.X, 1, Index == 1 and -3 or -1, window.VisualPreview.Components.Chams["Torso"][2]),
                             Position = utility:Position(0.5, skeletonoffset.X, 0, skeletonoffset.Y + (Index == 1 and 3 or 1), window.VisualPreview.Components.Chams["Torso"][2]),
                             Color = color,
-                            Transparency = transparency
+                            Visible = false,
+                            Transparency = 1
                         }, window.VisualPreview.Drawings)
                         --
                         window.VisualPreview.Components.Skeleton["Head"][Index] = preview_skeleton_head
@@ -1497,12 +1530,14 @@ do
                     Position = utility:Position(0, 1, 0, 1, preview_boxoutline),
                     Color = Color3.fromRGB(255, 255, 255),
                     Filled = true,
+                    Visible = false,
                     Transparency = 0.9
                 }, window.VisualPreview.Drawings)
                 --
                 local preview_flags = utility:Create("TextLabel", {Vector2.new(preview_box.Size.X -56, 5), preview_box}, {
                     Text = "Flags ->", --Display\nMoving\nJumping\nDesynced"
                     Size = theme.textsize,
+                    Visible = false,
                     Font = theme.font,
                     Color = Color3.fromRGB(255, 255, 255),
                     OutlineColor = theme.textborder,
@@ -1514,6 +1549,7 @@ do
                     Text = "<- Number", --Display\nMoving\nJumping\nDesynced"
                     Size = theme.textsize,
                     Font = theme.font,
+                    Visible = false,
                     Color = Color3.fromRGB(0, 255, 0),
                     OutlineColor = theme.textborder,
                     Center = false,
@@ -2296,6 +2332,7 @@ do
                 Color = theme.cursoroutline,
                 Thickness = 2.5,
                 Filled = false,
+                Visible = false,
                 ZIndex = 65,
                 Hidden = true
             });window.cursor["cursor"] = cursor
@@ -2307,6 +2344,7 @@ do
             local cursor_inline = utility:Create("Triangle", nil, {
                 Color = theme.accent,
                 Filled = true,
+                Visible = false,
                 Thickness = 0,
                 ZIndex = 65,
                 Hidden = true
@@ -2328,7 +2366,7 @@ do
                 cursor_inline.PointC = Vector2.new(mouseLocation.X + 4, mouseLocation.Y + 12)
             end)
             --
-            uis.MouseIconEnabled = false
+            uis.MouseIconEnabled = true
             --
             return window.cursor
         end
@@ -2345,7 +2383,7 @@ do
             --
             window.cursor["cursor"].Transparency = window.isVisible and 1 or 0
             window.cursor["cursor_inline"].Transparency = window.isVisible and 1 or 0
-            uis.MouseIconEnabled = not window.isVisible
+            uis.MouseIconEnabled = true
             --
             window.fading = false
         end
@@ -2992,7 +3030,7 @@ do
         }
         --
         local playerList_title = utility:Create("TextLabel", {Vector2.new(3,3), playerList_frame}, {
-            Text = "Player List - 0 Players",
+            Text = "Player List",
             Size = theme.textsize,
             Font = theme.font,
             Color = theme.textcolor,
@@ -3566,7 +3604,7 @@ do
                 library.Relations[Relation[1].UserId] = Relation[3] ~= "None" and Relation[3] or nil
             end
             --
-            playerList_title.Text = ("Player List - %s Players"):format(#playerList.items - 1)
+            playerList_title.Text = ("Player List"):format(#playerList.items - 1)
             --
             local Selection = playerList:GetSelection()
             --
@@ -3579,7 +3617,7 @@ do
                     lastselection = Selection
                     --
                     options_avatar.Data = ""
-                    options_loadingtext.Text = "..?"
+                    options_loadingtext.Text = "?"
                     --
                     options_title.Text = ("User ID : %s\nDisplay Name : %s\nName : %s\nHealth : %s/%s"):format(Selection[1].UserId, Selection[1].DisplayName ~= "" and Selection[1].DisplayName or Selection[1].Name, Selection[1].Name, "100", "100")
                     --
@@ -7184,7 +7222,6 @@ do
         --
         local list_bar = utility:Create("Frame", {Vector2.new(1,1), list_scroll}, {
             Size = utility:Size(1, -2, (list.max / #list.options), -2, list_scroll),
-            Position = utility:Position(0, 1, 0, 1, list_scroll),
             Color = theme.accent,
             Visible = page.open
         }, section.visibleContent)
@@ -7315,5 +7352,3 @@ do
         return list
     end
 end
---
-return library, utility, library.pointers, theme
