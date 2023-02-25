@@ -447,7 +447,7 @@ do
         --
         theme.accent = accent
         --
-        local window = {pages = {}, loader = true, isVisible = false, pageammount = pageammount, callback = callback, wminfo = "$$$$$ AntarcticaWare $$$$$ || UID : %u || Ping : %s || Fps : %u", currentPage = nil, fading = false, dragging = false, drag = Vector2.new(0,0), currentContent = {frame = nil, dropdown = nil, multibox = nil, colorpicker = nil, keybind = nil, textbox = nil}}
+        local window = {pages = {}, loader = true, isVisible = false, pageammount = pageammount, callback = callback, wminfo = "Fatality", currentPage = nil, fading = false, dragging = false, drag = Vector2.new(0,0), currentContent = {frame = nil, dropdown = nil, multibox = nil, colorpicker = nil, keybind = nil, textbox = nil}}
         --
         local main_frame = utility:Create("Frame", {Vector2.new(0,0)}, {
             Size = utility:Size(0, size.X, 0, size.Y),
@@ -708,7 +708,7 @@ do
                 Color = theme.cursoroutline,
                 Thickness = 9,
                 Filled = true,
-                Visible = false,
+                Visible = true,
                 ZIndex = 65,
                 Hidden = true
             });window.cursor["cursor"] = cursor
@@ -742,7 +742,7 @@ do
                 cursor_inline.PointC = Vector2.new(mouseLocation.X + 4, mouseLocation.Y + 12)
             end)
             --
-            uis.MouseIconEnabled = true
+            uis.MouseIconEnabled = false
             --
             return window.cursor
         end
@@ -757,9 +757,9 @@ do
                 end
             end)
             --
-            window.cursor["cursor"].Transparency = 1
+            window.cursor["cursor"].Visible = 1
             window.cursor["cursor_inline"].Transparency = 1
-            uis.MouseIconEnabled = true
+            uis.MouseIconEnabled = false
             --
             window.fading = false
         end
@@ -849,7 +849,7 @@ do
                     game:GetService('TeleportService'):TeleportToPlaceInstance(game.PlaceId, game.JobId, plr)
                 end
             elseif Input.KeyCode == Enum.KeyCode.U then
-                window:Unload()
+                Window:Unload()
             end
         end
         --
@@ -913,7 +913,7 @@ do
         --
         theme.accent = accent
         --
-        local window = {pages = {}, loader = style == 2, init = false, pageammount = pageammount, isVisible = false, callback = callback, uibind = Enum.KeyCode.Z, wminfo = "$$$$$ AntarcticaWare $$$$$ || UID : %u || Ping : %s || Fps : %u", currentPage = nil, fading = false, dragging = false, drag = Vector2.new(0,0), currentContent = {frame = nil, dropdown = nil, multibox = nil, colorpicker = nil, keybind = nil, textbox = nil}}
+        local window = {pages = {}, loader = style == 2, init = false, pageammount = pageammount, isVisible = false, callback = callback, uibind = Enum.KeyCode.Z, wminfo = "Loading", currentPage = nil, fading = false, dragging = false, drag = Vector2.new(0,0), currentContent = {frame = nil, dropdown = nil, multibox = nil, colorpicker = nil, keybind = nil, textbox = nil}}
         --
         local main_frame = utility:Create("Frame", {Vector2.new(0,0)}, {
             Size = utility:Size(0, size.X, 0, size.Y),
@@ -1085,7 +1085,7 @@ do
             }
             --
             local esppreview_frame = utility:Create("Frame", {Vector2.new(main_frame.Size.X + 5,0), main_frame}, {
-                Size = utility:Size(0, 236, 0, 339),
+                Size = utility:Size(0, 236, 0, 140),
                 Position = utility:Position(1, 5, 0, 0, main_frame),
                 Color = theme.outline,
                 Visible = false
@@ -1118,7 +1118,7 @@ do
             }
             --
             local esppreview_title = utility:Create("TextLabel", {Vector2.new(4,2), esppreview_inner}, {
-                Text = "ESP Preview",
+                Text = "Client Stats",
                 Size = theme.textsize,
                 Visible = false,
                 Font = theme.font,
@@ -1317,7 +1317,7 @@ do
                     Position = utility:Position(0, 0, 0, 0, preview_boxoutline),
                     Color = Color3.fromRGB(255, 255, 255),
                     Visible = false,
-                    Filled = false,
+                    Filled = true,
                     Thickness = 0.6
                 }, window.VisualPreview.Drawings)
                 --
@@ -1329,26 +1329,62 @@ do
                     Filled = true
                 }, window.VisualPreview.Drawings);healthbaroutline = preview_heatlhbaroutline
                 --
-                local preview_heatlhbar = utility:Create("Frame", {Vector2.new(1, 1), preview_heatlhbaroutline}, {
-                    Size = utility:Size(1, -2, 1, -2, preview_heatlhbaroutline),
-                    Position = utility:Position(0, 1, 0, 1, preview_heatlhbaroutline),
-                    Color = Color3.fromRGB(255, 0, 0),
-                    Visible = false,
-                    Filled = true
-                }, window.VisualPreview.Drawings);healthbar = preview_heatlhbar
-                --
-                local preview_title = utility:Create("TextLabel", {Vector2.new(preview_box.Size.X / 2, -20), preview_box}, {
-                    Text = "Username",
+                local preview_title = utility:Create("TextLabel", {Vector2.new(esppreview_frame_previewbox.Size.X - BoxSize.X - 10, 0), esppreview_frame_previewbox}, {
+                    Text = "Velocity: ",
                     Size = theme.textsize,
                     Font = theme.font,
                     Color = theme.textcolor,
                     Visible = false,
                     OutlineColor = theme.textborder,
-                    Center = true,
-                    Position = utility:Position(0.5, 0, 0, -20, preview_box)
-                }, window.VisualPreview.Drawings)
+                    Position = utility:Position(1, -(BoxSize.X - 1), 0, 20, esppreview_frame_previewbox)
+                }, window.VisualPreview.Drawings);boxoutline = preview_boxoutline
+                local preview_title2 = utility:Create("TextLabel", {Vector2.new(esppreview_frame_previewbox.Size.X - BoxSize.X - 10, 25), esppreview_frame_previewbox}, {
+                    Text = "RotVelocity: ",
+                    Size = theme.textsize,
+                    Font = theme.font,
+                    Color = theme.textcolor,
+                    Visible = false,
+                    OutlineColor = theme.textborder,
+                    Position = utility:Position(1, -(BoxSize.X - 1), 0, 20, esppreview_frame_previewbox)
+                }, window.VisualPreview.Drawings);boxoutline = preview_boxoutline
+                local preview_title3 = utility:Create("TextLabel", {Vector2.new(esppreview_frame_previewbox.Size.X - BoxSize.X - 10, 50), esppreview_frame_previewbox}, {
+                    Text = "Rotation: ",
+                    Size = theme.textsize,
+                    Font = theme.font,
+                    Color = theme.textcolor,
+                    Visible = false,
+                    OutlineColor = theme.textborder,
+                    Position = utility:Position(1, -(BoxSize.X - 1), 0, 20, esppreview_frame_previewbox)
+                }, window.VisualPreview.Drawings);boxoutline = preview_boxoutline
+                local preview_title4 = utility:Create("TextLabel", {Vector2.new(esppreview_frame_previewbox.Size.X - BoxSize.X - 10, 75), esppreview_frame_previewbox}, {
+                    Text = "Position: ",
+                    Size = theme.textsize,
+                    Font = theme.font,
+                    Color = theme.textcolor,
+                    Visible = false,
+                    OutlineColor = theme.textborder,
+                    Position = utility:Position(1, -(BoxSize.X - 1), 0, 20, esppreview_frame_previewbox)
+                }, window.VisualPreview.Drawings);boxoutline = preview_boxoutline
+                game:GetService("RunService").heartbeat:Connect(function()
+                preview_title.Text = "Velocity: "..tostring(math.round(game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity.X)) ..", "..tostring(math.round(game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity.Y)) ..", "..tostring(math.round(game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity.Z))
+                preview_title2.Text = "RotVelocity: "..tostring(math.round(game.Players.LocalPlayer.Character.HumanoidRootPart.RotVelocity.X)) ..", "..tostring(math.round(game.Players.LocalPlayer.Character.HumanoidRootPart.RotVelocity.Y)) ..", "..tostring(math.round(game.Players.LocalPlayer.Character.HumanoidRootPart.RotVelocity.Z))
+                preview_title3.Text = "Rotation: "..tostring(math.round(game.Players.LocalPlayer.Character.HumanoidRootPart.Rotation.X)) ..", "..tostring(math.round(game.Players.LocalPlayer.Character.HumanoidRootPart.Rotation.Y)) ..", "..tostring(math.round(game.Players.LocalPlayer.Character.HumanoidRootPart.Rotation.Z))
+                preview_title4.Text = "Position: "..tostring(math.round(game.Players.LocalPlayer.Character.HumanoidRootPart.Position.X)) ..", "..tostring(math.round(game.Players.LocalPlayer.Character.HumanoidRootPart.Position.Y)) ..", "..tostring(math.round(game.Players.LocalPlayer.Character.HumanoidRootPart.Position.Z))
+                preview_title.Visible = getgenv().StatsVisible
+                preview_title2.Visible = getgenv().StatsVisible
+                preview_title3.Visible = getgenv().StatsVisible
+                preview_title4.Visible = getgenv().StatsVisible
+                esppreview_frame.Visible = getgenv().StatsVisible
+                esppreview_inline.Visible = getgenv().StatsVisible
+                esppreview_inner.Visible = getgenv().StatsVisible
+                esppreview_title.Visible = getgenv().StatsVisible
+                esppreview_inner_inline.Visible = getgenv().StatsVisible
+                esppreview_inner_outline.Visible = getgenv().StatsVisible
+                esppreview_inner_frame.Visible = getgenv().StatsVisible
+                esppreview_frame_previewbox.Visible = getgenv().StatsVisible
+                end)
                 --
-                local preview_distance = utility:Create("TextLabel", {Vector2.new(preview_box.Size.X / 2, preview_box.Size.Y + 5), preview_box}, {
+                local preview_distance = utility:Create("TextLabel", {Vector2.new(preview_box.Size.X / -15, preview_box.Size.Y + 5), preview_box}, {
                     Text = "25m",
                     Size = theme.textsize,
                     Visible = false,
@@ -1357,7 +1393,7 @@ do
                     OutlineColor = theme.textborder,
                     Center = true,
                     Position = utility:Position(0.5, 0, 1, 5, preview_box)
-                }, window.VisualPreview.Drawings)
+                },  window.VisualPreview.Drawings)
                 --
                 local preview_tool = utility:Create("TextLabel", {Vector2.new(preview_box.Size.X / 2, preview_box.Size.Y + 20), preview_box}, {
                     Text = "Weapon",
@@ -1763,7 +1799,7 @@ do
             window.watermark = {visible = false}
             --
             local info = info or {}
-            local watermark_name = info.name or info.Name or info.title or info.Title or window.wminfo
+            local watermark_name = info.name or info.Name or info.title or info.Title or string.format("Loading", 1, 100, 200)
             --
             local text_bounds = utility:GetTextBounds(watermark_name, theme.textsize, theme.font)
             --
@@ -1820,7 +1856,7 @@ do
             }
             --
             local watermark_title = utility:Create("TextLabel", {Vector2.new(2 + 6,4), watermark_outline}, {
-                Text = "Failed Loading Watermark.",
+                Text = "Loading",
                 Size = theme.textsize,
                 Font = theme.font,
                 Color = theme.textcolor,
@@ -1939,7 +1975,7 @@ do
             }
             --
             local keybindslist_title = utility:Create("TextLabel", {Vector2.new(keybindslist_outline.Size.X/2,4), keybindslist_outline}, {
-                Text = "[ Keybinds ]",
+                Text = "[Keybinds]",
                 Size = theme.textsize,
                 Font = theme.font,
                 Color = theme.textcolor,
@@ -7352,4 +7388,5 @@ do
         return list
     end
 end
+
 return library, utility, library.pointers, theme
