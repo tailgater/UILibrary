@@ -1,3 +1,4 @@
+-- insert troll face, memcorruptv2
 local library = { 
 	flags = { }, 
 	items = { } 
@@ -21,26 +22,26 @@ library.theme = {
     fontsize = 17,
     titlesize = 18,
     font = Enum.Font.Code,
-    background = "rbxassetid://0",
-    tilesize = 90,
+    background = "rbxassetid://2151741365",
+    tilesize = 225,
     cursor = false,
     cursorimg = "https://t0.rbxcdn.com/42f66da98c40252ee151326a82aab51f",
     backgroundcolor = Color3.fromRGB(20, 20, 20),
-    tabstextcolor = Color3.fromRGB(168,122,207),
-    bordercolor = Color3.fromRGB(75, 207, 255),
-    accentcolor = Color3.fromRGB(168,122,207),
-    accentcolor2 = Color3.fromRGB(88,65,108),
-    outlinecolor = Color3.fromRGB(20,20,20),
-    outlinecolor2 = Color3.fromRGB(30,30,30),--119, 64, 167
+    tabstextcolor = Color3.fromRGB(240, 240, 240),
+    bordercolor = Color3.fromRGB(60, 60, 60),
+    accentcolor = Color3.fromRGB(19, 119, 255),
+    accentcolor2 = Color3.fromRGB(28, 56, 139),
+    outlinecolor = Color3.fromRGB(60, 60, 60),
+    outlinecolor2 = Color3.fromRGB(0, 0, 0),
     sectorcolor = Color3.fromRGB(30, 30, 30),
     toptextcolor = Color3.fromRGB(255, 255, 255),
     topheight = 48,
     topcolor = Color3.fromRGB(30, 30, 30),
-    topcolor2 = Color3.fromRGB(12,12,12), -- Color3.fromRGB(12, 12, 12),
+    topcolor2 = Color3.fromRGB(30, 30, 30),
     buttoncolor = Color3.fromRGB(49, 49, 49),
-    buttoncolor2 = Color3.fromRGB(29,29,29),
-    itemscolor = Color3.fromRGB(170, 170, 170),
-    itemscolor2 = Color3.fromRGB(255,255,255)
+    buttoncolor2 = Color3.fromRGB(39, 39, 39),
+    itemscolor = Color3.fromRGB(200, 200, 200),
+    itemscolor2 = Color3.fromRGB(210, 210, 210)
 }
 
 if library.theme.cursor and Drawing then
@@ -217,7 +218,7 @@ function library:CreateWindow(name, size, hidebutton)
     local window = { }
 
     window.name = name or ""
-    window.size = UDim2.fromOffset(size.X, size.Y) or UDim2.fromOffset(492, 598)
+    window.size = UDim2.fromOffset(size.X, size.Y) or UDim2.fromOffset(550, 600)
     window.hidebutton = hidebutton or Enum.KeyCode.RightShift
     window.theme = library.theme
 
