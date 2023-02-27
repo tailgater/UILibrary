@@ -35,15 +35,15 @@ local utility = {}
 local pages = {}
 local sections = {}
 local theme = {
-    accent = Color3.fromRGB(0,180,240),
-    lightcontrast = Color3.fromRGB(0,15,30),
-    darkcontrast = Color3.fromRGB(5,5,20),
-    outline = Color3.fromRGB(10,30,40),
-    inline = Color3.fromRGB(10,30,40),
+    accent = Color3.fromRGB(114, 137, 218),
+    lightcontrast = Color3.fromRGB(48, 57, 82),
+    darkcontrast = Color3.fromRGB(32, 39, 55),
+    outline = Color3.fromRGB(0, 0, 0),
+    inline = Color3.fromRGB(85, 85, 85),
     textcolor = Color3.fromRGB(255, 255, 255),
     textborder = Color3.fromRGB(0, 0, 0),
     cursoroutline = Color3.fromRGB(10, 10, 10),
-    font = Drawing.Fonts.Plex,
+    font = 2,
     textsize = 13
 }
 -- // Utility Functions
