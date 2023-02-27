@@ -434,8 +434,167 @@ do
 	pages.__index = pages
 	sections.__index = sections
     --
-    function library:Notification(info)
-    end
+        function window:NotificationList(info)
+            window.notificationlist = {notifications = {}}
+            --
+            local info = info or {}
+            --
+            function window.notificationlist:AddNotification(info)
+                local info = info or {}
+                local text = info.text or "label"
+                local lifetime = info.lifetime or 5
+                --
+                local notification = {pressed = false}
+                --
+                local notify_outline = utility:Create("Frame", {Vector2.new(0, 0)}, {
+                    Size = utility:Size(0, 18 + (7 * #text), 0, 29),
+                    Position = utility:Position(0, 29, 0, 34 + (#window.notificationlist.notifications * 35)),
+                    Color = theme.outline,
+                    ZIndex = 1,
+                    Transparency = 0,
+                    Hidden = true,
+                    Visible = true,
+                })notification["notify_outline"] = notify_outline
+                --
+                local notify_inline = utility:Create("Frame", {Vector2.new(1, 1), notify_outline}, {
+                    Size = utility:Size(1, -2, 1, -2, notify_outline),
+                    Position = utility:Position(0, 1, 0, 1, notify_outline),
+                    Color = theme.inline,
+                    ZIndex = 2,
+                    Transparency = 0,
+                    Hidden = true,
+                    Visible = true,
+                })notification["notify_inline"] = notify_inline
+                --
+                local notify_frame = utility:Create("Frame", {Vector2.new(1, 1), notify_inline}, {
+                    Size = utility:Size(1, -2, 1, -2, notify_inline),
+                    Position = utility:Position(0, 1, 0, 1, notify_inline),
+                    Color = theme.lightcontrast,
+                    ZIndex = 3,
+                    Transparency = 0,
+                    Hidden = true,
+                    Visible = true,
+                })notification["notify_frame"] = notify_frame
+                --
+                local notify_accent = utility:Create("Frame", {Vector2.new(0, 0), notify_frame}, {
+                    Size = utility:Size(0, 5, 0, 25),
+                    Position = utility:Position(0, 0, 0, 0, notify_frame),
+                    Color = theme.accent,
+                    ZIndex = 3,
+                    Transparency = 0,
+                    Hidden = true,
+                    Visible = true,
+                })notification["notify_accent"] = notify_accent
+                --
+                local notify_title = utility:Create("TextLabel", {Vector2.new(8, 5), notify_frame}, {
+                    Size = 13,
+                    Position = utility:Position(0, 10, 0, 5, notify_frame),
+                    Font = Drawing.Fonts.Plex,
+                    Color = theme.textcolor,
+                    Outline = true,
+                    ZIndex = 5,
+                    Text = text,
+                    Transparency = 0,
+                    Hidden = true,
+                    Visible = true,
+                })notification["notify_title"] = notify_title
+                --
+                local notify__gradient = utility:Create("Image", {Vector2.new(0, 0), notify_frame}, {
+                    Size = utility:Size(1, 0, 1, 0, notify_frame),
+                    Position = utility:Position(0, 0, 0, 0, notify_frame),
+                    Transparency = 0,
+                    ZIndex = 4,
+                    Hidden = true,
+                    Visible = true,
+                })notification["notify__gradient"] = notify__gradient
+                --
+                utility:LoadImage(notify__gradient, "gradient", "https://i.imgur.com/5hmlrjX.png")
+                --
+                utility:Lerp(notify_outline, {Transparency = 1}, 0.25)
+                utility:Lerp(notify_inline, {Transparency = 1}, 0.25)
+                utility:Lerp(notify_frame, {Transparency = 1}, 0.25)
+                utility:Lerp(notify_accent, {Transparency = 10}, 0.25)
+                utility:Lerp(notify_title, {Transparency = 1}, 0.25)
+                utility:Lerp(notify__gradient, {Transparency = 0.5}, 0.25)
+                --
+                window.notificationlist.notifications[#window.notificationlist.notifications + 1] = notification
+                --
+                local function began_function(Input)
+                    if Input.UserInputType == Enum.UserInputType.MouseButton1 and utility:MouseOverDrawingInstance(notify_outline) and not notification.pressed then
+                        notification.Remove()
+                    end
+                end
+                --
+                library.began[#library.began + 1] = began_function
+                --
+                local function changed_function(Input)
+                    if Input.UserInputType == Enum.UserInputType.MouseMovement and not notification.pressed then
+                        if utility:MouseOverDrawingInstance(notify_outline) then
+                            local h, s, v = theme.accent:ToHSV()
+                            notify_inline.Color = Color3.fromHSV(h, 0.44, v)
+                        else
+                            notify_inline.Color = theme.inline
+                        end
+                    end
+                end
+                --
+                library.changed[#library.changed + 1] = changed_function
+                --
+                function notification.Remove()
+                    if notification.pressed then return end
+                    notification.pressed = true
+                    --
+                    utility:Lerp(notify_outline, {Transparency = 0}, 0.25)
+                    utility:Lerp(notify_inline, {Transparency = 0}, 0.25)
+                    utility:Lerp(notify_frame, {Transparency = 0}, 0.25)
+                    utility:Lerp(notify_accent, {Transparency = 0}, 0.25)
+                    utility:Lerp(notify_title, {Transparency = 0}, 0.25)
+                    utility:Lerp(notify__gradient, {Transparency = 0}, 0.25)
+                    --
+                    task.wait(0.25)
+                    --
+                    notify_outline:Remove()
+                    notify_inline:Remove()
+                    notify_frame:Remove()
+                    notify_accent:Remove()
+                    notify_title:Remove()
+                    notify__gradient:Remove()
+                    --
+                    for index, notify in next, window.notificationlist.notifications do
+                        if notify == notification then
+                            window.notificationlist.notifications[index] = nil
+                        end
+                    end
+                    --
+                    for index, func in next, library.changed do
+                        if func == changed_function then
+                            library.changed[index] = nil
+                        end
+                    end
+                    --
+                    for index, func in next, library.began do
+                        if func == began_function then
+                            library.began[index] = nil
+                        end
+                    end
+                    --
+                    window.notificationlist:SortNotifications()
+                end
+                --
+                delay(lifetime + 0.25, notification.Remove)
+            end
+            --
+            function window.notificationlist:SortNotifications()
+                for index, notification in next, window.notificationlist.notifications do
+                    notification["notify_outline"].Position = utility:Position(0, 0, 0, -34, notification["notify_outline"])
+                    notification["notify_inline"].Position = utility:Position(0, 1, 0, 1, notification["notify_outline"])
+                    notification["notify_frame"].Position = utility:Position(0, 1, 0, 1, notification["notify_inline"])
+                    notification["notify_accent"].Position = utility:Position(0, 0, 0, 0, notification["notify_frame"])
+                    notification["notify_title"].Position = utility:Position(0, 8, 0, 5, notification["notify_frame"])
+                    notification["notify__gradient"].Position = utility:Position(0, 0, 0, 0, notification["notify_frame"])
+                end
+            end
+        end
     --
     function library:Loader(info)
 		local info = info or {}
