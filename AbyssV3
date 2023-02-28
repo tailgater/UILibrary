@@ -1163,7 +1163,7 @@ do
                 local SectionInline = Utility.AddDrawing("Square", {
                     Position = Vector2.new(AxisX, (Tab.SectionAxis[Side == "Left" and 1 or 2] == 0 and TabOutline.Position.Y + TabOutline.Size.Y + 6 or 6 + Tab.SectionAxis[Side == "Left" and 1 or 2])),
                     Size = Vector2.new((SecondBorderOutline.Size.X / 2) - 8, 27),
-                    Thickness = 10,
+                    Thickness = 0,
                     Color = Library.Theme.Inline,
                     Visible = true,
                     Filled = true
@@ -1883,15 +1883,15 @@ do
                             TypeOf = "Keybind",
                             Axis = Section.ContentAxis,
                             Title = Options.Title or "LOL",
-                            EnumType = Options.Key.EnumType == Enum.KeyCode and "KeyCode" or "UserInputType",
-                            Key = Options.Key or Enum.UserInputType.MouseButton2,
+                            EnumType = Options.Key.EnumType == Enum.KeyCode and "KeyCode" or "UserInputType" or "[None}",
+                            Key = Options.Key or Enum.UserInputType.MouseButton2 or "...",
                             StateType = Options.StateType or "Hold",
                             State = false,
-                            Shorten = "",
+                            Shorten = "...",
                             Binding = false,
                             Dropped = false,
                             Callback = typeof(Options.Callback) == "function" and Options.Callback or function() end,
-                            ShowRender = "",
+                            ShowRender = "...",
                             AddN = false
                         }
                         --
@@ -1910,7 +1910,7 @@ do
                         Keybind.ShowRender = ("[%s] %s"):format(Keybind.Shorten, Options.Title)
                         --
                         local KeybindInline = Utility.AddDrawing("Square", {
-                            Position = Vector2.new(SectionInline.Position.X + SectionInline.Size.X - 40 - 6, SectionInline.Position.Y + Keybind.Axis + 2),
+                            Position = Vector2.new(SectionInline.Position.X + SectionInline.Size.X - 40 - 10, SectionInline.Position.Y + Keybind.Axis + -30),
                             Size = Vector2.new(40, 14),
                             Thickness = 0,
                             Color = Library.Theme.Inline,
