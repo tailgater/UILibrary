@@ -717,7 +717,7 @@ do
             }
             --
             local watermark_title = utility:Create("TextLabel", {Vector2.new(2 + 6,4), watermark_outline}, {
-                Text = string.format("crip scrip - fps : %u - uid : %u", 35, 2),
+                Text = "i fucking love fatality",
                 Size = theme.textsize,
                 Font = theme.font,
                 Color = theme.textcolor,
