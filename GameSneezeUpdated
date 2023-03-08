@@ -2763,7 +2763,7 @@ do
         }
         --
         local section_accent = utility:Create("Frame", {Vector2.new(0,0), section_frame}, {
-            Size = utility:Size(1, 0, 0, 2, section_frame),
+            Size = utility:Size(1, 0, 0, 1, section_frame),
             Position = utility:Position(0, 0, 0, 0, section_frame),
             Color = theme.accent,
             Visible = page.open
