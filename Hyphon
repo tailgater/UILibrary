@@ -1,118 +1,4 @@
---[[
-    /------------ [ octohook.xyz ui library ] ------------\
-    | fully by liamm#0223 (561301972293255180)            |
-    | last modified 12/17/2022                            |
-    | if used, give credit.                               |
-    |                                                     |
-    \-----------------------------------------------------/
-
-
-    // -- Documentation -- \\
-
-    option:set_enabled(enabled <boolean>)
-    option:set_text(text <string>)
-
-    -- menu
-    local menu = library:create('menu', properties <table>)
-    library.menu = menu
-
-    text <string>
-    size <udim2>
-    position <udim2>
-
-    -- tab
-    local tab = menu:tab(properties <table>)
-
-    text <string>
-    order <number>
-
-    -- section
-    local section = tab:section(properties <table>)
-
-    text <string>
-    side <number>
-
-
-    -- toggle
-    local toggle = section:toggle(properties <table>)
-    
-    default <boolean>
-    text <string>
-    order <number>
-    enabled <boolean>
-    callback <function>
-    
-
-    -- slider
-    local slider = section:slider(properties <table>)
-    local slider = toggle:slider(properties <table>)
-    
-    default <number>
-    min <number>
-    max <number>
-    increment <number>
-    text <string>
-    order <number>
-    enabled <boolean>
-    callback <function>
-
-
-    -- colorpicker
-    local colorpicker = section:colorpicker(properties <table>)
-    local colorpicker = toggle:colorpicker(properties <table>)
-    
-    default <color3>
-    default_opacity <number>
-    text <string>
-    order <number>
-    enabled <boolean>
-    callback <function> [color, opacity]
-
-
-    -- keybind
-    local keybind = section:keybind(properties <table>)
-    local keybind = toggle:keybind(properties <table>)
-    
-    default <keycode> <userinputtype>
-    mode <string> [toggle, hold, always]
-    text <string>
-    order <number>
-    enabled <boolean>
-    callback <function>
-
-
-    -- textbox
-    local textbox = section:textbox(properties <table>)
-    local textbox = toggle:textbox(properties <table>)
-    
-    default <string>
-    placeholder <string>
-    text <string>
-    order <number>
-    enabled <boolean>
-    callback <function>
-
-    -- button
-    local button = section:button(properties <table>)
-    
-    text <string>
-    order <number>
-    enabled <boolean>
-    callback <function>
-
-    -- separator
-    local separator = section:separator(properties <table>)
-    
-    text <string>
-    order <number>
-    enabled <boolean>
-
-
-    -- finishing up
-    AFTER CREATING ALL YOUR OPTIONS, DO library.menu:refresh()
-
---]]
-
+-- // credits to liam
 -- // load
 local startup_args = ({...})[1] or {}
 if library ~= nil then
@@ -121,27 +7,27 @@ end
 
 local themes = {
     ['default'] = {
-            ['Accent']                    = fromrgb(197,7,83);
-            ['Background']                = fromrgb(25,19,53);
-            ['Border']                    = fromrgb(0,0,0);
-            ['Border 1']                  = fromrgb(60,53,93);
-            ['Border 2']                  = fromrgb(29,23,66);
-            ['Border 3']                  = fromrgb(10,10,10);
-            ['Primary Text']              = fromrgb(235,235,235);
-            ['Group Background']          = fromrgb(29,23,66);
-            ['Selected Tab Background']   = fromrgb(29,23,66);
-            ['Unselected Tab Background'] = fromrgb(25,19,53);
-            ['Selected Tab Text']         = fromrgb(245,245,245);
-            ['Unselected Tab Text']       = fromrgb(145,145,145);
-            ['Section Background']        = fromrgb(25,19,53);
-            ['Option Text 1']             = fromrgb(245,245,245);
-            ['Option Text 2']             = fromrgb(195,195,195);
-            ['Option Text 3']             = fromrgb(145,145,145);
-            ['Option Border 1']           = fromrgb(60,53,93);
-            ['Option Border 2']           = fromrgb(0,0,0);
-            ['Option Background']         = fromrgb(29,23,66);
-            ["Risky Text"]                = fromrgb(175, 21, 21);
-            ["Risky Text Enabled"]        = fromrgb(255, 41, 41);
+        ['Accent']              = Color3.fromRGB(77, 160, 255),
+        ['Background']          = Color3.fromRGB(15,15,20),
+        ['Border']              = Color3.fromRGB(0,0,0),
+        ['Border 1']            = Color3.fromRGB(10,10,15),
+        ['Border 2']            = Color3.fromRGB(45,45,50),
+        ['Border 3']            = Color3.fromRGB(35,35,40),
+        ['Primary Text']        = Color3.fromRGB(240,240,240),
+        ['Secondary Text']      = Color3.fromRGB(145, 145, 145),
+        ['Group Background']    = Color3.fromRGB(20,20,25),
+        ['Selected Tab']        = Color3.fromRGB(20,20,25),
+        ['Unselected Tab']      = Color3.fromRGB(23,23,28),
+        ['Selected Tab Text']   = Color3.fromRGB(240,240,240),
+        ['Unselected Tab Text'] = Color3.fromRGB(145,145,145),
+        ['Section Background']  = Color3.fromRGB(18,18,23),
+        ['Option Text 1']       = Color3.fromRGB(235,235,235),
+        ['Option Text 2']       = Color3.fromRGB(155,155,155),
+        ['Option Border 1']     = Color3.fromRGB(45,45,50),
+        ['Option Border 2']     = Color3.fromRGB(0,0,0),
+        ['Option Background']   = Color3.fromRGB(31,31,34),
+        ["Risky Text"]          = Color3.fromRGB(175, 21, 21),
+        ["Risky Text Enabled"]  = Color3.fromRGB(255, 41, 41),
     }
 }
 
