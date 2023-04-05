@@ -181,7 +181,7 @@ function bungiesLibrary.Load(SelectedLibrary)
                     "undefined footer  |   " ..
                         game.Players.LocalPlayer.Name ..
                             " | " .. os.date("%d") .. "/" .. os.date("%m") .. "/" .. os.date("%Y"),
-                VisibleKeybind = Configuration.VisibleKeybind or Enum.KeyCode.RightAlt
+                VisibleKeybind = Configuration.VisibleKeybind or Enum.KeyCode.V
             }
 
             local private = Instance.new("ScreenGui")
