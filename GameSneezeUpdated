@@ -247,19 +247,6 @@ do
             end
         end
     end
-    function Library:UpdateColor(ColorType, ColorValue)
-        local ColorType = ColorType:lower()
-        --
-        Theme[ColorType] = ColorValue
-        --
-        for Index, Value in pairs(Library.colors) do
-            for Index2, Value2 in pairs(Value) do
-                if Value2 == ColorType then
-                    Index[Index2] = Theme[Value2]
-                end
-            end
-        end
-    end
     --
     function utility:Remove(instance, hidden)
         library.colors[instance] = nil
@@ -7314,6 +7301,35 @@ do
         --
         return list
     end
+end
+--
+function library:UpdateColor(ColorType, ColorValue)
+    local ColorType = ColorType:lower()
+    --
+    theme[ColorType] = ColorValue
+    --
+    for Index, Value in pairs(library.colors) do
+        for Index2, Value2 in pairs(Value) do
+            if Value2 == ColorType then
+                Index[Index2] = theme[Value2]
+            end
+        end
+    end
+end
+--
+local m_thread = task do
+    setreadonly(m_thread, false)
+
+    function m_thread.spawn_loop(p_time, p_callback)
+        m_thread.spawn(function()
+            while true do
+                p_callback()
+                m_thread.wait(p_time)
+            end
+        end)
+    end
+
+    setreadonly(m_thread, true)
 end
 --
 return library, utility, library.pointers, theme
