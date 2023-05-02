@@ -247,6 +247,19 @@ do
             end
         end
     end
+    function Library:UpdateColor(ColorType, ColorValue)
+        local ColorType = ColorType:lower()
+        --
+        Theme[ColorType] = ColorValue
+        --
+        for Index, Value in pairs(Library.colors) do
+            for Index2, Value2 in pairs(Value) do
+                if Value2 == ColorType then
+                    Index[Index2] = Theme[Value2]
+                end
+            end
+        end
+    end
     --
     function utility:Remove(instance, hidden)
         library.colors[instance] = nil
